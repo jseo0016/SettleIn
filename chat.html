@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SettleIn — Group Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1220;       --card:#111a2e;   --muted:#8ea2c8;  --text:#eaf2ff;
+    --brand:#6dd3a3;    --brand-2:#8ab6ff;--ring: rgba(141,214,186,0.45);
+    --border: rgba(255,255,255,.10);
+    --wa-header:#075E54; --wa-in:#1f2c34; --wa-out:#005c4b; --wa-border:rgba(255,255,255,.06);
+  }
+  :root[data-theme='light']{
+    --bg:#f6f9ff;       --card:#ffffff;   --muted:#506289;  --text:#0b1220;
+    --brand:#2dd4bf;    --brand-2:#60a5fa;--ring: rgba(96,165,250,0.45);
+    --border: rgba(0,0,0,.10);
+    --wa-header:#128C7E; --wa-in:#ffffff; --wa-out:#DCF8C6; --wa-border:rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--wa-header:#075E54; --wa-in:#1f2c34; --wa-out:#005c4b; --wa-border:rgba(255,255,255,.06);}
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:var(--bg); color:var(--text)}
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:1200px; margin:0 auto; padding:18px 24px}
+
+  header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(1.1) blur(8px);
+    background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55));
+    border-bottom:1px solid rgba(255,255,255,.06)}
+  :root[data-theme='light'] header{background:rgba(255,255,255,.92); border-bottom:1px solid rgba(0,0,0,.06)}
+  .nav{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700}
+  .logo{width:28px; height:28px; background:conic-gradient(from 220deg,var(--brand),var(--brand-2)); border-radius:8px}
+  .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .btn, .cta{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border)}
+  .btn{background:var(--card); color:var(--text)}
+  .cta{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; border:none; font-weight:700}
+
+  /* Theme toggle */
+  .theme-toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card); color:var(--text)}
+  .toggle-dot{width:22px; height:22px; border-radius:50%; background:conic-gradient(from 180deg,var(--brand),var(--brand-2)); display:inline-block; transition: transform .45s cubic-bezier(.2,.8,.2,1)}
+  .spin .toggle-dot{transform: rotate(360deg)}
+
+  .shell{display:grid; grid-template-columns: 280px 1fr; gap:16px; padding-top:16px}
+  @media(max-width:900px){.shell{grid-template-columns:1fr}}
+
+  .panel{background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden}
+  .panel h3{margin:0; font-size:16px; padding:12px 14px; border-bottom:1px solid var(--border)}
+  .pad{padding:12px}
+
+  .members{display:flex; flex-direction:column; gap:8px; padding:12px}
+  .user{display:flex; align-items:center; gap:10px; padding:8px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,.02)}
+  .ava{width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:700; color:#0b1220}
+  .u-name{font-weight:700}
+  .dot{width:8px; height:8px; border-radius:50%; background:#86efac; display:inline-block; margin-right:6px}
+
+  .wa{display:flex; flex-direction:column; height:68vh}
+  .wa-h{background:var(--wa-header); color:#fff; padding:10px 12px; display:flex; align-items:center; gap:10px}
+  .ai-ava{width:28px; height:28px; border-radius:50%; background:#fff; color:#075E54; display:flex; align-items:center; justify-content:center; font-weight:700}
+  .wa-body{flex:1; overflow:auto; padding:14px; background:linear-gradient(180deg, rgba(0,0,0,.02), transparent)}
+  .bubble{max-width:78%; padding:10px 12px; border-radius:14px; border:1px solid var(--wa-border); margin:6px 0; font-size:15px}
+  .in{background:var(--wa-in); align-self:flex-start}
+  .out{background:var(--wa-out); align-self:flex-end; margin-left:auto}
+  .stamp{display:block; font-size:11px; opacity:.8; margin-top:4px}
+  .typing{display:inline-block; width:34px; height:10px; background:
+      radial-gradient(currentColor, currentColor 55%, transparent 60%) 0% 50%/8px 8px no-repeat,
+      radial-gradient(currentColor, currentColor 55%, transparent 60%) 50% 50%/8px 8px no-repeat,
+      radial-gradient(currentColor, currentColor 55%, transparent 60%) 100% 50%/8px 8px no-repeat;
+    color:#c8d8ff; opacity:.8; animation: blink 1.4s infinite linear}
+  @keyframes blink{0%,100%{filter:opacity(.2)} 50%{filter:opacity(1)}}
+
+  .wa-input{display:flex; gap:8px; padding:10px; border-top:1px solid var(--border); background:var(--card)}
+  .wa-input input{flex:1; padding:12px 14px; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--text)}
+  .wa-input button{padding:10px 14px; border-radius:999px; border:1px solid var(--border); background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand"><div class="logo"></div> SettleIn</div>
+    <div class="row">
+      <button id="themeToggle" class="theme-toggle"><span class="toggle-dot"></span><span>Theme</span></button>
+      <a class="btn" href="index.html">← Back</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap shell">
+  <!-- Left: Group / Members -->
+  <aside class="panel">
+    <h3>Group</h3>
+    <div class="pad">
+      <div><strong id="pillGroup">Group · —</strong></div>
+      <div class="pad" style="padding:4px 0"><span id="pillStage"></span> · <span id="pillLoc"></span></div>
+    </div>
+    <h3>Members</h3>
+    <div class="members" id="memberList"></div>
+  </aside>
+
+  <!-- Right: Chat -->
+  <section class="panel">
+    <div class="wa">
+      <div class="wa-h">
+        <div class="ai-ava">S</div>
+        <div><strong>SettleIn</strong><br><span id="headerStatus" style="font-size:12px;opacity:.9">online</span></div>
+      </div>
+      <div class="wa-body" id="chatBody"></div>
+      <div class="wa-input">
+        <input id="msgInput" type="text" placeholder="Message group…" autocomplete="off"/>
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ===== Theme toggle (persist) ===== */
+(function(){
+  const root=document.documentElement;
+  const btn=document.getElementById('themeToggle');
+  const saved=localStorage.getItem('settlein_theme');
+  if(saved && saved!=='dark') root.setAttribute('data-theme', saved);
+  btn.addEventListener('click',()=>{
+    btn.classList.add('spin');
+    const next=root.getAttribute('data-theme')==='light'?'dark':'light';
+    if(next==='dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light');
+    localStorage.setItem('settlein_theme', root.getAttribute('data-theme')||'dark');
+    setTimeout(()=>btn.classList.remove('spin'), 500);
+  });
+})();
+
+/* ===== URL params ===== */
+const params=new URLSearchParams(location.search);
+const GROUP_ID=params.get('groupId') || 'alpha-123';
+const STAGE=(params.get('stage')||'adjustment').toUpperCase();
+const LOC=params.get('loc') || 'All Melbourne';
+document.getElementById('pillGroup').textContent = `Group · ${GROUP_ID}`;
+document.getElementById('pillStage').textContent = STAGE;
+document.getElementById('pillLoc').textContent = LOC;
+
+/* ===== Members ===== */
+const POOL=[
+  'Ari','Ben','Chloe','Dev','Emi','Finn','Gio','Hana','Iris','Jay','Kai','Leo'
+];
+function shuffle(a){return a.sort(()=>0.5-Math.random())}
+let members = shuffle([...POOL]).slice(0, Math.floor(4+Math.random()*3)); // 4–6 others
+members.push('You');
+
+const memberList=document.getElementById('memberList');
+members.forEach(m=>{
+  const el=document.createElement('div'); el.className='user';
+  el.innerHTML=`<div class="ava" style="background:conic-gradient(from 220deg,var(--brand),var(--brand-2)); ${m==='You'?'color:#fff':''}">
+    ${m==='You'?'🙂':m[0]}</div>
+    <div><div class="u-name">${m}${m==='You'?' (you)':''}</div>
+    <div class="hint">${LOC}</div></div>
+    <div style="margin-left:auto" class="hint">${m==='You'?'':'<span class="dot"></span>online'}</div>`;
+  memberList.appendChild(el);
+});
+
+/* ===== Prompt categories with more variety ===== */
+const PROMPTS={
+  basketball: {
+    q:"Today’s prompt: Who’s the most underrated NBA player right now?",
+    ideas:[
+      "Jrue Holiday — elite defense that flies under the radar.",
+      "Derrick White: does everything, rarely headlines.",
+      "Jalen Brunson still doesn’t get enough love.",
+      "Alex Caruso’s impact > box score.",
+      "Nic Claxton’s rim protection changes games."
+    ]
+  },
+  anime:{
+    q:"Today’s prompt: Which anime comforts you when stressed?",
+    ideas:[
+      "Mushishi — slow, soothing worldbuilding.",
+      "Natsume’s Book of Friends for quiet vibes.",
+      "Haikyuu!! when I need energy.",
+      "Barakamon calms me instantly.",
+      "K-On! = cozy background joy."
+    ]
+  },
+  music:{
+    q:"Today’s prompt: What song instantly lifts your mood?",
+    ideas:[
+      "“Home” — Edward Sharpe & Magnetic Zeros.",
+      "“Ribs” — Lorde.",
+      "“Walking on a Dream” — Empire of the Sun.",
+      "“Good as Hell” — Lizzo.",
+      "“Levitating” — Dua Lipa."
+    ]
+  },
+  movies:{
+    q:"Today’s prompt: What movie do you rewatch the most?",
+    ideas:[
+      "Spirited Away — timeless comfort.",
+      "The Social Network — dialog + score.",
+      "La La Land for the music.",
+      "Into the Spider-Verse — art + soundtrack.",
+      "The Grand Budapest Hotel — textures."
+    ]
+  },
+  travel:{
+    q:"Today’s prompt: Where would you go next weekend if time/money were easy?",
+    ideas:[
+      "Mornington Peninsula hot springs.",
+      "Great Ocean Road for a day trip.",
+      "Tasmania hikes around Freycinet.",
+      "New Zealand — Queenstown trails.",
+      "Sydney for a quick city reset."
+    ]
+  },
+  food:{
+    q:"Today’s prompt: What’s your ultimate comfort food?",
+    ideas:[
+      "Ramen with soft-boiled egg.",
+      "Kimchi jjigae on a cold day.",
+      "Laksa — spicy, creamy, perfect.",
+      "Dumplings with chili oil.",
+      "Carbonara (properly silky)."
+    ]
+  },
+  hobbies:{
+    q:"Today’s prompt: What hobby will you try this year?",
+    ideas:[
+      "Bouldering with friends.",
+      "Film photography walks.",
+      "Sourdough (again… hopefully better).",
+      "Ukulele — easy chords, fun songs.",
+      "Urban sketching in cafés."
+    ]
+  }
+};
+const CATS=Object.keys(PROMPTS);
+const CAT=CATS[Math.floor(Math.random()*CATS.length)];
+
+/* ===== Chat helpers ===== */
+const CHAT=document.getElementById('chatBody');
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function bubble(u,t,out=false){
+  const div=document.createElement('div');
+  div.className=`bubble ${out?'out':'in'}`;
+  div.innerHTML=`<strong>${u}:</strong> ${t}<span class="stamp">${now()}</span>`;
+  CHAT.appendChild(div); CHAT.scrollTop=CHAT.scrollHeight;
+}
+function typing(on=true){
+  let t=document.getElementById('typingBar');
+  if(on && !t){t=document.createElement('div');t.id='typingBar';t.className='bubble in';t.innerHTML='<span class="typing"></span>';CHAT.appendChild(t);}
+  else if(!on && t) t.remove();
+  CHAT.scrollTop=CHAT.scrollHeight;
+}
+const status=document.getElementById('headerStatus');
+setInterval(()=>{ status.textContent = Math.random()>0.7 ? 'typing…' : 'online'; }, 2500);
+
+/* ===== Round-table simulation =====
+   - Post SettleIn prompt
+   - Every 10s: next member shares an idea
+   - 2–4s after each idea: 1–2 peers react with agree/disagree
+*/
+const HOST='SettleIn';
+const others = members.filter(m=>m!=='You');
+const ideaAuthors = [...others].slice(0, Math.min(5, others.length)); // up to 5 ideas
+const ideas = PROMPTS[CAT].ideas.slice(0, ideaAuthors.length);
+
+function postReactions(excludeName){
+  // choose 1–2 reactors not equal to excludeName
+  const reactors = others.filter(n=>n!==excludeName);
+  shuffle(reactors);
+  const count = 1 + Math.floor(Math.random()*2); // 1 or 2 reactions
+  for(let r=0; r<count; r++){
+    const who = reactors[r];
+    const agree = Math.random() > 0.25; // 75% agree, 25% disagree
+    const phrasesAgree = ["Agree 👍","+1 to that","Couldn’t agree more","Yesss","True!"];
+    const phrasesDis = ["Not sure I agree 🤔","I see it differently","Disagree (politely)","Hmm, maybe not","Mixed on this"];
+    const extra = [""," — good point."," — nice take."," — interesting."," — I’d add a caveat."];
+    setTimeout(()=>{
+      typing(true);
+      setTimeout(()=>{
+        typing(false);
+        bubble(who, (agree?phrasesAgree[Math.floor(Math.random()*phrasesAgree.length)]
+          :phrasesDis[Math.floor(Math.random()*phrasesDis.length)]) + extra[Math.floor(Math.random()*extra.length)]);
+      }, 600 + Math.random()*700);
+    }, 2000 + Math.random()*2000); // 2–4s after idea
+  }
+}
+
+function startRound(){
+  // Prompt
+  typing(true);
+  setTimeout(()=>{ typing(false); bubble(HOST, PROMPTS[CAT].q); }, 900);
+
+  // Ideas at 10s interval
+  let i=0;
+  function tick(){
+    if(i>=ideaAuthors.length) return;
+    const who = ideaAuthors[i];
+    const text = ideas[i];
+    // typing, then post idea
+    typing(true);
+    setTimeout(()=>{
+      typing(false);
+      bubble(who, text);
+      postReactions(who);
+      i++;
+      setTimeout(tick, 10000); // <- 10s between ideas
+    }, 900 + Math.random()*800);
+  }
+  setTimeout(tick, 1500);
+}
+startRound();
+
+/* ===== Sending messages (user) ===== */
+const input=document.getElementById('msgInput');
+document.getElementById('sendBtn').onclick=()=>{
+  const val=input.value.trim();
+  if(!val) return;
+  bubble('You',val,true);
+  input.value='';
+  // brief acknowledgement from host
+  typing(true);
+  setTimeout(()=>{ typing(false); bubble(HOST,'Thanks for jumping in!'); }, 900 + Math.random()*700);
+};
+input.addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('sendBtn').click() });
+</script>
+</body>
+</html>
