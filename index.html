@@ -9,22 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b1220;       --card:#111a2e;   --muted:#8ea2c8;  --text:#eaf2ff;
-      --brand:#6dd3a3;    --brand-2:#8ab6ff;--ring: rgba(141,214,186,0.45);
-      --ok:#86efac;       --warn:#fbbf24;   --danger:#f87171;
-      --border: rgba(255,255,255,.10);
-      /* WhatsApp-like palette (light) */
-      --wa-header:#075E54; --wa-in:#ffffff; --wa-out:#DCF8C6; --wa-border:rgba(0,0,0,.08);
+      --bg:#0b1220; --card:#111a2e; --muted:#8ea2c8; --text:#eaf2ff;
+      --brand:#6dd3a3; --brand-2:#8ab6ff; --ring: rgba(141,214,186,0.45);
+      --ok:#86efac; --warn:#fbbf24; --danger:#f87171; --border: rgba(255,255,255,.10);
+      --wa-header:#075E54; --wa-in:#1f2c34; --wa-out:#005c4b; --wa-border:rgba(255,255,255,.06);
     }
     :root[data-theme='light']{
-      --bg:#f6f9ff;       --card:#ffffff;   --muted:#506289;  --text:#0b1220;
-      --brand:#2dd4bf;    --brand-2:#60a5fa;--ring: rgba(96,165,250,0.45);
-      --ok:#16a34a;       --warn:#d97706;   --danger:#dc2626;
-      --border: rgba(0,0,0,.10);
+      --bg:#f6f9ff; --card:#ffffff; --muted:#506289; --text:#0b1220;
+      --brand:#2dd4bf; --brand-2:#60a5fa; --ring: rgba(96,165,250,0.45);
+      --ok:#16a34a; --warn:#d97706; --danger:#dc2626; --border: rgba(0,0,0,.10);
       --wa-header:#128C7E; --wa-in:#ffffff; --wa-out:#DCF8C6; --wa-border:rgba(0,0,0,.08);
     }
-    @media (prefers-color-scheme: dark){:root{--wa-header:#075E54; --wa-in:#1f2c34; --wa-out:#005c4b; --wa-border:rgba(255,255,255,.06);}}
-
     *{box-sizing:border-box}
     body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:var(--bg); color:var(--text); line-height:1.55; transition: background .3s, color .3s}
     a{color:inherit; text-decoration:none}
@@ -39,12 +34,11 @@
     .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
     .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.18)}
 
-    /* Toggle animation */
     .theme-toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card); color:var(--text)}
     .toggle-dot{width:22px; height:22px; border-radius:50%; background:conic-gradient(from 180deg,var(--brand),var(--brand-2)); display:inline-block; transition: transform .45s cubic-bezier(.2,.8,.2,1)}
     .spin .toggle-dot{transform: rotate(360deg)}
 
-    .hero{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; padding:44px 0}
+    .hero{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; padding:44px 0}
     .card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px; transition: background .3s, color .3s}
     .pill{display:inline-flex; align-items:center; font-size:12px; font-weight:700; background:linear-gradient(90deg,var(--brand),var(--brand-2)); padding:6px 10px; border-radius:999px; color:#fff}
     h1{font-size:40px; margin:10px 0 12px}
@@ -56,14 +50,12 @@
     .muted{color:var(--muted)}
     .row{display:flex; gap:10px; flex-wrap:wrap}
 
-    /* Interest chips with icons + hover expand */
     .chip{background:var(--card); border:1px solid var(--border); padding:14px 18px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:12px; transition:transform .18s ease, box-shadow .18s ease, outline-color .18s ease; color:var(--text); font-size:15px}
     .chip .ico{font-size:18px; transition: transform .18s ease}
     .chip:hover{transform:translateY(-2px) scale(1.08); box-shadow:0 10px 24px rgba(0,0,0,.25)}
     .chip:hover .ico{transform: scale(1.2)}
     .chip.selected{outline:2px solid var(--ring)}
 
-    /* Form layout: spacious */
     .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
     .field{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px}
     label{display:block; font-weight:600; margin-bottom:8px}
@@ -77,20 +69,20 @@
     dialog{border:none; border-radius:16px; padding:0; overflow:hidden; max-width:660px; width:96vw; background:var(--card); color:var(--text)}
     dialog::backdrop{background:rgba(1,6,16,.7)}
 
-    /* Sample result layout — roomier */
     .result-box{padding:26px; border-radius:16px; background:var(--card); margin-top:12px; min-height:260px}
     .result-line{display:flex; align-items:center; gap:16px; margin-bottom:16px}
     .members{display:flex; flex-wrap:wrap; gap:16px}
     .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(90deg,var(--brand),var(--brand-2))}
 
     /* WhatsApp-like chat illustration */
-    .wa{border:1px solid var(--wa-border); border-radius:16px; overflow:hidden}
+    .wa{border:1px solid var(--wa-border); border-radius:16px; overflow:hidden; font-size:14px; max-height:360px;}
     .wa-h{background:var(--wa-header); color:#fff; padding:10px 12px; display:flex; align-items:center; gap:10px}
     .wa-h .ai-ava{width:28px; height:28px; border-radius:50%; background:#fff; color:#075E54; display:flex; align-items:center; justify-content:center; font-weight:700}
-    .wa-b{padding:14px; background:linear-gradient(180deg, rgba(0,0,0,.02), transparent)}
-    .wa-b .bubble{max-width:78%; padding:10px 12px; border-radius:14px; border:1px solid var(--wa-border); margin:6px 0}
-    .wa-b .in{background:var(--wa-in); align-self:flex-start}
-    .wa-b .out{background:var(--wa-out); align-self:flex-end; margin-left:auto}
+    .wa-b{padding:14px; background:linear-gradient(180deg, rgba(0,0,0,.02), transparent); display:flex; flex-direction:column; overflow:auto; max-height:300px}
+    .wa-b .row{display:flex; align-items:flex-end; gap:8px; margin:6px 0}
+    .pp{width:26px; height:26px; border-radius:50%; flex:0 0 26px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; background:linear-gradient(120deg,var(--brand),var(--brand-2)); color:#fff}
+    .wa-b .bubble{max-width:78%; padding:10px 12px; border-radius:14px; border:1px solid var(--wa-border)}
+    .wa-b .in{background:var(--wa-in)}
 
     @media(max-width:900px){.hero{grid-template-columns:1fr;}.grid-2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
   </style>
@@ -121,13 +113,13 @@
         <h3>How group chat works</h3>
         <div id="chatIllustration" class="wa">
           <div class="wa-h"><div class="ai-ava">S</div><div><strong>SettleIn</strong><br><span class="hint" style="color:#eaf2ff; opacity:.9">online</span></div></div>
-          <div class="wa-b" id="waBody" style="display:flex; flex-direction:column"></div>
+          <div class="wa-b" id="waBody"></div>
         </div>
         <div class="row"><button class="btn" onclick="newIllustration()">New example</button></div>
       </div>
     </section>
 
-    <!-- NEW: full-width Hug Mode band above the sample section -->
+    <!-- Full-width Hug Mode band -->
     <section id="hug" class="section">
       <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap">
         <div>
@@ -136,12 +128,31 @@
         </div>
         <button class="cta" onclick="openHug()">Start Hug Mode</button>
         <dialog id="hugModal">
-          <div class="modal-body stack" style="padding:18px">
-            <ol>
-              <li>Look around and name 5 things you see.</li>
-              <li>Breathe in for 4, hold 4, out 6 — repeat 3×.</li>
-              <li>Affirm: “Transition is hard, and I’m doing my best.”</li>
-            </ol>
+          <div class="modal-body" style="padding:18px; min-width:min(640px,90vw)">
+            <h3 style="margin:0 0 8px">Hug Mode · 30 seconds</h3>
+            <p class="muted" style="margin:0 0 12px">A quick reset you can do anywhere.</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+              <div class="card" style="border:1px solid var(--border); background:var(--card)">
+                <ol style="margin:0; padding-left:18px">
+                  <li style="margin:6px 0"><strong>See 5:</strong> Name five things around you.</li>
+                  <li style="margin:6px 0"><strong>4‑4‑6 Breathing:</strong> In 4 · Hold 4 · Out 6 × 3.</li>
+                  <li style="margin:6px 0"><strong>Affirm:</strong> “Change is hard. I’m doing my best.”</li>
+                </ol>
+              </div>
+              <div class="card" style="border:1px solid var(--border); background:var(--card)">
+                <label style="font-weight:700">Calming soundtrack</label>
+                <div class="inline" style="flex-wrap:wrap">
+                  <label class="chip"><input type="radio" name="sound" value="ocean" checked> Ocean</label>
+                  <label class="chip"><input type="radio" name="sound" value="rain"> Rain</label>
+                  <label class="chip"><input type="radio" name="sound" value="cafe"> Cafe</label>
+                  <label class="chip"><input type="radio" name="sound" value="tone"> Soft tone</label>
+                </div>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn" id="playSound">Play</button>
+                  <button class="btn" id="stopSound">Stop</button>
+                </div>
+              </div>
+            </div>
           </div>
         </dialog>
       </div>
@@ -215,7 +226,7 @@
   </main>
 
   <script>
-    // ===== Theme toggle with animation =====
+    // Theme toggle
     (function(){
       const root=document.documentElement;
       const btn=document.getElementById('themeToggle');
@@ -230,7 +241,7 @@
       });
     })();
 
-    // ===== Populate Location select (Melbourne & nearby suburbs) =====
+    // Locations
     (function(){
       const suburbs=['All Melbourne','Melbourne CBD','Docklands','Southbank','Carlton','Parkville','Fitzroy','Collingwood','Richmond','Abbotsford','Hawthorn','Kew','Camberwell','Balwyn','Toorak','South Yarra','Prahran','St Kilda','Elwood','Brighton','Elsternwick','Caulfield','Malvern','Armadale','Glen Iris','Burwood','Ashburton','Glen Waverley','Mount Waverley','Box Hill','Doncaster','Doncaster East','Templestowe','Clayton','Clayton South','Springvale','Noble Park','Dandenong','Oakleigh','Hughesdale','Murrumbeena','Carnegie','Chadstone','Bentleigh','Bentleigh East','Moorabbin','Hampton','Sandringham','Cheltenham','Mentone','Parkdale','Mordialloc','Brunswick','Coburg','Pascoe Vale','Preston','Thornbury','Northcote','Heidelberg','Ivanhoe','Bundoora','Essendon','Moonee Ponds','Ascot Vale','Kensington','Flemington','Footscray','Yarraville','Seddon','Newport','Williamstown','Altona','Sunshine','St Albans','Werribee','Hoppers Crossing','Tarneit','Point Cook'];
       const sel=document.getElementById('quizLoc');
@@ -238,7 +249,7 @@
       sel.value='All Melbourne';
     })();
 
-    // ===== Prompts & WhatsApp-style illustrative chat =====
+    // Chat illustration with avatars
     const RESPONSES={
       basketball:[
         {u:'SettleIn',t:"Today’s prompt: Who’s the most underrated NBA player right now?",k:'host'},
@@ -259,34 +270,21 @@
         {u:'Chloe',t:'“Yellow” for nostalgia.'}
       ]
     };
-    function newIllustration(){
-      const keys=Object.keys(RESPONSES);
-      const key=keys[Math.floor(Math.random()*keys.length)];
-      const convo=RESPONSES[key];
-      const body=document.getElementById('waBody');
-      body.innerHTML=convo.map(m=>`<div class="bubble ${m.k==='host'?'in':'in'}"><strong>${m.u}:</strong> ${m.t}</div>`).join('');
-    }
-    // init illustration
+    const AVATARS={ 'SettleIn':'S','Gio':'🧢','Leo':'🦁','Ben':'🏀','Ari':'🌿','Emi':'💫','Iris':'📚','Jay':'🎵','Kai':'🌊','Chloe':'📷' };
+    function bubbleHTML(m){ const ava=AVATARS[m.u]||m.u[0]; return `<div class='row'><div class='pp'>${ava}</div><div class='bubble in'><strong>${m.u}:</strong> ${m.t}</div></div>` }
+    function newIllustration(){ const key=Object.keys(RESPONSES)[Math.floor(Math.random()*3)]; document.getElementById('waBody').innerHTML=RESPONSES[key].map(bubbleHTML).join('') }
     newIllustration();
 
-    function openHug(){document.getElementById('hugModal').showModal()}
+    function openHug(){ document.getElementById('hugModal').showModal() }
 
-    // ===== Interest chips with icons =====
-    const INTEREST_ICONS={
-      basketball:'🏀', anime:'🌀', hiking:'🥾', music:'🎧', gaming:'🎮', coffee:'☕', cooking:'🍳', movies:'🎬',
-      photography:'📸', gym:'🏋️', boardgames:'🎲', kdrama:'🇰🇷', coding:'💻', volunteering:'🤝', running:'🏃', travel:'🌏'
-    };
+    // Interests with icons
+    const INTEREST_ICONS={ basketball:'🏀', anime:'🌀', hiking:'🥾', music:'🎧', gaming:'🎮', coffee:'☕', cooking:'🍳', movies:'🎬', photography:'📸', gym:'🏋️', boardgames:'🎲', kdrama:'🇰🇷', coding:'💻', volunteering:'🤝', running:'🏃', travel:'🌏' };
     const INTERESTS=['basketball','anime','hiking','music','gaming','coffee','cooking','movies','photography','gym','boardgames','kdrama','coding','volunteering','running','travel'];
     const interestChips=document.getElementById('interestChips');
     const selected=new Set();
-    INTERESTS.forEach(name=>{
-      const b=document.createElement('button');
-      b.className='chip'; b.innerHTML=`<span class="ico">${INTEREST_ICONS[name]||'✨'}</span><span>${name}</span>`;
-      b.onclick=()=>{ if(selected.has(name)){selected.delete(name); b.classList.remove('selected')} else {selected.add(name); b.classList.add('selected')} };
-      interestChips.appendChild(b);
-    });
+    INTERESTS.forEach(name=>{ const b=document.createElement('button'); b.className='chip'; b.innerHTML=`<span class='ico'>${INTEREST_ICONS[name]||'✨'}</span><span>${name}</span>`; b.onclick=()=>{ if(selected.has(name)){selected.delete(name); b.classList.remove('selected')} else {selected.add(name); b.classList.add('selected')} }; interestChips.appendChild(b); });
 
-    // ===== Demo group allocation with simple filtering by location =====
+    // Allocation
     const POOL=[
       {name:'Ari', loc:'Carlton', tags:['anime','music','coffee','kdrama']},
       {name:'Ben', loc:'Richmond', tags:['basketball','gym','movies','coffee']},
@@ -301,74 +299,19 @@
       {name:'Kai', loc:'Northcote', tags:['travel','photography','music','running']},
       {name:'Leo', loc:'Caulfield', tags:['basketball','gym','gaming','movies']}
     ];
+    function allocateGroup(myTags, loc){ let picks=[...POOL].filter(p=>p.tags.some(t=>myTags.includes(t))); if(loc && loc!=='All Melbourne') picks=picks.filter(p=>p.loc===loc)||picks; while(picks.length<4){ const r=POOL[Math.floor(Math.random()*POOL.length)]; if(!picks.includes(r)) picks.push(r);} const size=5+Math.floor(Math.random()*3); return picks.slice(0,size-1); }
 
-    function allocateGroup(myTags, loc){
-      let picks=[...POOL].filter(p=>p.tags.some(t=>myTags.includes(t)));
-      if(loc && loc!=='All Melbourne') picks = picks.filter(p=>p.loc===loc) || picks;
-      while(picks.length<4){ const r=POOL[Math.floor(Math.random()*POOL.length)]; if(!picks.includes(r)) picks.push(r); }
-      const size=5+Math.floor(Math.random()*3); // 5-7
-      return picks.slice(0,size-1);
-    }
+    const STAGE_TIPS={ honeymoon:['Capture “firsts” in a micro‑journal.','Sample low‑stakes events to test communities.'], frustration:['Anchor sleep & meals; routines help mood.','Normalize wobbliness—this dip is very common.'], adjustment:['Set one weekly mini‑goal with your circle.','Use a 2 comfy : 1 new activity ratio.'], integration:['Share a short story to help others.','Create a group tradition (Fri coffee, Sun run).'] };
+    function stageFromQuiz(){ const mood=+document.getElementById('quizMood').value; const lang=+document.getElementById('quizLang').value; const social=+document.getElementById('quizSocial').value; const sleep=document.getElementById('quizSleep').checked; const homesick=document.getElementById('quizHomesick').checked; let idx=mood; if(homesick && idx<2) idx=1; if(!sleep && lang>=2 && idx<3) idx=Math.max(idx,2); if(social>=3 && idx<3) idx=Math.max(idx,2); return ['honeymoon','frustration','adjustment','integration'][idx]; }
 
-    const STAGE_TIPS={
-      honeymoon:['Capture “firsts” in a micro‑journal.','Sample low‑stakes events to test communities.'],
-      frustration:['Anchor sleep & meals; routines help mood.','Normalize wobbliness—this dip is very common.'],
-      adjustment:['Set one weekly mini‑goal with your circle.','Use a 2 comfy : 1 new activity ratio.'],
-      integration:['Share a short story to help others.','Create a group tradition (Fri coffee, Sun run).']
-    };
+    function renderMembers(mates){ return mates.map(m=>`<span class="chip" style="padding:14px 18px"><span class="avatar"></span><span>${m.name}</span><span class="hint" style="margin-left:8px">· ${m.loc}</span></span>`).join(' ');}    
 
-    function stageFromQuiz(){
-      const mood=+document.getElementById('quizMood').value; // 0..3
-      const lang=+document.getElementById('quizLang').value; // 0..3
-      const social=+document.getElementById('quizSocial').value; // 0..3
-      const sleep=document.getElementById('quizSleep').checked;
-      const homesick=document.getElementById('quizHomesick').checked;
-      const budget=document.getElementById('quizBudget').checked;
-      let idx=mood;
-      if(homesick && idx<2) idx=1; // nudge to frustration
-      if(!sleep && lang>=2 && idx<3) idx=Math.max(idx,2);
-      if(social>=3 && idx<3) idx=Math.max(idx,2);
-      const names=['honeymoon','frustration','adjustment','integration'];
-      return {stage:names[idx], meta:{lang,social,sleep,homesick,budget}};
-    }
+    function runSample(){ const picks=[...selected]; if(picks.length<3){ alert('Choose at least 3 interests.'); return;} const stage=stageFromQuiz(); const loc=document.getElementById('quizLoc').value; const mates=allocateGroup(picks, loc); const groupId='alpha-'+(100+Math.floor(Math.random()*900)); const tip=(STAGE_TIPS[stage]||[''])[Math.floor(Math.random()*2)]||''; const target=document.getElementById('matchResult'); target.innerHTML=`<div class='stack' style='gap:16px'><div class='result-line'><span class='pill'>Group · ${groupId}</span><span class='hint'>${mates.length+1} members</span></div><div class='hint'>Location preference: <strong style='color:var(--text)'>${loc}</strong></div><div class='members'>${renderMembers(mates)} <span class='chip selected' style='padding:14px 18px'><span class='avatar'></span>You</span></div><div class='card' style='background:var(--card)'><strong>Your stage:</strong> ${stage.toUpperCase()}<br><span class='muted'>Tip:</span> ${tip}</div><div class='row'><a class='cta' id='loginJoin' href='login.html?next=${encodeURIComponent('chat.html?groupId='+groupId+'&stage='+stage+'&loc='+encodeURIComponent(loc))}'>Log in to join group</a></div><span class='hint'>We’ll pass your <span class='mono'>groupId</span>, stage & location to the chat after login.</span></div>`; document.getElementById('connectBtn').href=`chat.html?groupId=${groupId}&stage=${stage}&loc=${encodeURIComponent(loc)}`; }
 
-    function renderMembers(mates){
-      return mates.map(m=>`<span class="chip" style="padding:14px 18px"><span class="avatar"></span><span>${m.name}</span><span class="hint" style="margin-left:8px">· ${m.loc}</span></span>`).join(' ');
-    }
+    function clearSample(){ selected.clear(); [...interestChips.children].forEach(c=>c.classList.remove('selected')); document.getElementById('matchResult').innerHTML='<p class="muted">Your group, stage & advice will appear here after you generate.</p>'; document.getElementById('connectBtn').href='chat.html'; }
 
-    function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
-
-    function runSample(){
-      const picks=[...selected];
-      if(picks.length<3){ alert('Choose at least 3 interests.'); return; }
-      const {stage}=stageFromQuiz();
-      const loc=document.getElementById('quizLoc').value;
-      const mates=allocateGroup(picks, loc);
-      const groupId='alpha-'+(100+Math.floor(Math.random()*900));
-      const tip=pick(STAGE_TIPS[stage]);
-
-      const target=document.getElementById('matchResult');
-      target.innerHTML=`
-        <div class="stack" style="gap:16px">
-          <div class="result-line"><span class="pill">Group · ${groupId}</span><span class="hint">${mates.length+1} members</span></div>
-          <div class="hint">Location preference: <strong style="color:var(--text)">${loc}</strong></div>
-          <div class="members">${renderMembers(mates)} <span class="chip selected" style="padding:14px 18px"><span class="avatar"></span>You</span></div>
-          <div class="card" style="background:var(--card)"><strong>Your stage:</strong> ${stage.toUpperCase()}<br><span class="muted">Tip:</span> ${tip}</div>
-          <div class="row">
-            <a class="cta" id="loginJoin" href="login.html?next=${encodeURIComponent('chat.html?groupId='+groupId+'&stage='+stage+'&loc='+encodeURIComponent(loc))}">Log in to join group</a>
-          </div>
-          <span class="hint">We’ll pass your <span class="mono">groupId</span>, stage & location to the chat after login.</span>
-        </div>`;
-
-      document.getElementById('connectBtn').href=`chat.html?groupId=${groupId}&stage=${stage}&loc=${encodeURIComponent(loc)}`;
-    }
-
-    function clearSample(){
-      selected.clear();
-      [...interestChips.children].forEach(c=>c.classList.remove('selected'));
-      document.getElementById('matchResult').innerHTML='<p class="muted">Your group, stage & advice will appear here after you generate.</p>';
-      document.getElementById('connectBtn').href='chat.html';
-    }
+    // Hug Mode audio (WebAudio)
+    (function(){ let ac, oscL, oscH, gain; function setup(){ ac=ac||new (window.AudioContext||window.webkitAudioContext)(); } function stop(){ if(!ac||!gain) return; gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+0.2); setTimeout(()=>{ try{oscL&&oscL.stop();oscH&&oscH.stop();}catch{} gain.disconnect(); oscL=oscH=gain=null; },300);} function play(mode){ setup(); stop(); gain=ac.createGain(); gain.gain.value=0.0001; gain.connect(ac.destination); gain.gain.exponentialRampToValueAtTime(0.2, ac.currentTime+0.3); if(mode==='tone'){ oscL=ac.createOscillator(); oscL.type='sine'; oscL.frequency.value=432; oscL.connect(gain); oscL.start(); return;} oscL=ac.createOscillator(); oscH=ac.createOscillator(); oscL.type='sine'; oscH.type='sine'; if(mode==='ocean'){ oscL.frequency.value=110; oscH.frequency.value=0.3;} if(mode==='rain'){ oscL.frequency.value=220; oscH.frequency.value=0.7;} if(mode==='cafe'){ oscL.frequency.value=160; oscH.frequency.value=2.0;} const lGain=ac.createGain(); const hGain=ac.createGain(); lGain.gain.value=0.15; hGain.gain.value=0.05; const mod=ac.createGain(); mod.gain.value=50; oscH.connect(mod); mod.connect(oscL.frequency); oscL.connect(lGain); lGain.connect(gain); oscH.connect(hGain); hGain.connect(gain); oscL.start(); oscH.start(); } document.addEventListener('click',(e)=>{ if(e.target.id==='playSound'){ const sel=[...document.querySelectorAll('input[name="sound"]')].find(r=>r.checked)?.value||'ocean'; play(sel);} if(e.target.id==='stopSound') stop(); }); })();
   </script>
 </body>
 </html>
