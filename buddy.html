@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SettleIn — Find Your Buddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --muted:#8ea2c8; --text:#eaf2ff;
+      --brand:#6dd3a3; --brand-2:#8ab6ff; --ring: rgba(141,214,186,0.45);
+      --ok:#86efac; --warn:#fbbf24; --danger:#f87171; --border: rgba(255,255,255,.10);
+    }
+    :root[data-theme='light']{
+      --bg:#f6f9ff; --card:#ffffff; --muted:#506289; --text:#0b1220;
+      --brand:#2dd4bf; --brand-2:#60a5fa; --ring: rgba(96,165,250,0.45);
+      --ok:#16a34a; --warn:#d97706; --danger:#dc2626; --border: rgba(0,0,0,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:var(--bg); color:var(--text); line-height:1.55; transition: background .3s, color .3s}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:28px}
+    header{position:sticky; top:0; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:50}
+    :root[data-theme='light'] header{background:rgba(255,255,255,0.9); border-bottom:1px solid rgba(0,0,0,.06)}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:18px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700}
+    .logo{width:34px; height:34px; background:conic-gradient(from 220deg,var(--brand),var(--brand-2)); border-radius:10px}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.18)}
+    .cta{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; font-weight:700; padding:10px 14px; border-radius:12px; border:none; cursor:pointer}
+
+    .theme-toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card); color:var(--text)}
+
+    h1{font-size:32px; margin:18px 0 6px}
+    p.lead{color:var(--muted); margin:0 0 16px}
+
+    .filters{display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin: 12px 0 18px}
+    .field{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px}
+    label{display:block; font-weight:700; margin-bottom:8px}
+    select, input[type="range"], input[type="text"]{width:100%; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:8px}
+
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{background:var(--card); border:1px solid var(--border); padding:10px 12px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:10px}
+    .chip.selected{outline:2px solid var(--ring)}
+
+    .grid{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px}
+    .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px}
+
+    .row{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex; align-items:center; font-size:12px; font-weight:700; background:linear-gradient(90deg,var(--brand),var(--brand-2)); padding:4px 8px; border-radius:999px; color:#fff}
+    .avatar{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(120deg,var(--brand),var(--brand-2)); color:#fff; font-weight:700}
+
+    .save{background:transparent; border:1px solid var(--border); padding:6px 10px; border-radius:10px}
+    .foot{margin:22px 0; font-size:12px; color:var(--muted)}
+
+    @media(max-width:900px){
+      .filters{grid-template-columns: 1fr}
+      .grid{grid-template-columns: 1fr}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand"><div class="logo"></div> SettleIn</div>
+    <div class="row">
+      <a class="btn" href="index.html">← Home</a>
+      <button id="themeToggle" class="theme-toggle">Theme</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Find your buddy</h1>
+  <p class="lead">We suggest 1‑on‑1 matches by shared interests, location and stage. Save the ones you like or jump straight into a chat.</p>
+
+  <section class="filters">
+    <div class="field">
+      <label for="loc">Location</label>
+      <select id="loc"></select>
+    </div>
+    <div class="field">
+      <label for="stage">Stage</label>
+      <select id="stage">
+        <option value="any">Any</option>
+        <option value="honeymoon">Honeymoon</option>
+        <option value="frustration">Frustration</option>
+        <option value="adjustment">Adjustment</option>
+        <option value="integration">Integration</option>
+      </select>
+    </div>
+    <div class="field" style="grid-column:1/-1">
+      <label>Interests</label>
+      <div id="chips" class="chips"></div>
+      <p class="muted" style="margin:8px 0 0">Tip: pick at least 3 for best results.</p>
+    </div>
+  </section>
+
+  <div class="row" style="justify-content:space-between; margin: 4px 0 12px">
+    <div class="row">
+      <button id="findBtn" class="btn">Generate matches</button>
+      <button id="clearBtn" class="btn">Reset</button>
+    </div>
+    <div class="row">
+      <span class="muted" id="countHint">0 matches</span>
+      <select id="sort" class="btn" style="padding:8px 10px">
+        <option value="score">Sort: Best match</option>
+        <option value="near">Sort: Closest</option>
+        <option value="name">Sort: Name</option>
+      </select>
+    </div>
+  </div>
+
+  <section id="results" class="grid" aria-live="polite"></section>
+
+  <p class="foot">Saved buddies are stored locally on your device.</p>
+</main>
+
+<script>
+  // Theme toggle (persist)
+  (function(){
+    const root=document.documentElement;
+    const btn=document.getElementById('themeToggle');
+    const saved=localStorage.getItem('settlein_theme');
+    if(saved && saved!=='dark') root.setAttribute('data-theme', saved);
+    btn.addEventListener('click',()=>{
+      const next=root.getAttribute('data-theme')==='light'?'dark':'light';
+      if(next==='dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light');
+      localStorage.setItem('settlein_theme', root.getAttribute('data-theme')||'dark');
+    });
+  })();
+
+  // Interest catalog (match index page)
+  const INTEREST_ICONS={ basketball:'🏀', anime:'🌀', hiking:'🥾', music:'🎧', gaming:'🎮', coffee:'☕', cooking:'🍳', movies:'🎬', photography:'📸', gym:'🏋️', boardgames:'🎲', kdrama:'🇰🇷', coding:'💻', volunteering:'🤝', running:'🏃', travel:'🌏' };
+  const INTERESTS=Object.keys(INTEREST_ICONS);
+
+  // Melbourne suburbs (match index page)
+  const SUBURBS=['All Melbourne','Melbourne CBD','Docklands','Southbank','Carlton','Parkville','Fitzroy','Collingwood','Richmond','Abbotsford','Hawthorn','Kew','Camberwell','Balwyn','Toorak','South Yarra','Prahran','St Kilda','Elwood','Brighton','Elsternwick','Caulfield','Malvern','Armadale','Glen Iris','Burwood','Ashburton','Glen Waverley','Mount Waverley','Box Hill','Doncaster','Doncaster East','Templestowe','Clayton','Clayton South','Springvale','Noble Park','Dandenong','Oakleigh','Hughesdale','Murrumbeena','Carnegie','Chadstone','Bentleigh','Bentleigh East','Moorabbin','Hampton','Sandringham','Cheltenham','Mentone','Parkdale','Mordialloc','Brunswick','Coburg','Pascoe Vale','Preston','Thornbury','Northcote','Heidelberg','Ivanhoe','Bundoora','Essendon','Moonee Ponds','Ascot Vale','Kensington','Flemington','Footscray','Yarraville','Seddon','Newport','Williamstown','Altona','Sunshine','St Albans','Werribee','Hoppers Crossing','Tarneit','Point Cook'];
+
+  // Demo pool (extends the index pool)
+  const POOL=[
+    {name:'Ari', loc:'Carlton', stage:'adjustment', tags:['anime','music','coffee','kdrama']},
+    {name:'Ben', loc:'Richmond', stage:'adjustment', tags:['basketball','gym','movies','coffee']},
+    {name:'Chloe', loc:'Glen Waverley', stage:'integration', tags:['hiking','photography','travel','coffee']},
+    {name:'Dev', loc:'Footscray', stage:'frustration', tags:['gaming','coding','music','boardgames']},
+    {name:'Emi', loc:'St Kilda', stage:'honeymoon', tags:['kdrama','cooking','anime','movies']},
+    {name:'Finn', loc:'Preston', stage:'adjustment', tags:['running','hiking','gym','travel']},
+    {name:'Gio', loc:'Docklands', stage:'adjustment', tags:['basketball','gaming','movies','music']},
+    {name:'Hana', loc:'Clayton', stage:'frustration', tags:['cooking','coffee','photography','volunteering']},
+    {name:'Iris', loc:'Brunswick', stage:'adjustment', tags:['boardgames','anime','movies','music']},
+    {name:'Jay', loc:'Southbank', stage:'adjustment', tags:['coding','gaming','coffee','movies']},
+    {name:'Kai', loc:'Northcote', stage:'integration', tags:['travel','photography','music','running']},
+    {name:'Leo', loc:'Caulfield', stage:'adjustment', tags:['basketball','gym','gaming','movies']},
+    {name:'Maya', loc:'Box Hill', stage:'frustration', tags:['travel','coffee','volunteering','movies']},
+    {name:'Noah', loc:'Clayton', stage:'honeymoon', tags:['coding','anime','gaming','coffee']},
+    {name:'Oli', loc:'Carlton', stage:'integration', tags:['boardgames','gym','movies','music']},
+  ];
+
+  // DOM refs
+  const chipsBox=document.getElementById('chips');
+  const results=document.getElementById('results');
+  const countHint=document.getElementById('countHint');
+  const sortSel=document.getElementById('sort');
+  const stageSel=document.getElementById('stage');
+  const locSel=document.getElementById('loc');
+
+  // Build filters
+  SUBURBS.forEach(s=>{const o=document.createElement('option'); o.value=s; o.textContent=s; locSel.appendChild(o)});
+  locSel.value='All Melbourne';
+
+  const selected=new Set();
+  INTERESTS.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='chip';
+    b.innerHTML=`<span>${INTEREST_ICONS[n]}</span><span>${n}</span>`;
+    b.onclick=()=>{ if(selected.has(n)){selected.delete(n); b.classList.remove('selected')} else {selected.add(n); b.classList.add('selected')} };
+    chipsBox.appendChild(b);
+  });
+
+  // Helpers
+  function overlap(a,b){ return a.filter(x=>b.includes(x)); }
+  function scoreBuddy(b){
+    const interests = [...selected];
+    const shared = overlap(interests, b.tags).length;
+    const locBoost = (locSel.value!=='All Melbourne' && b.loc===locSel.value) ? 1 : 0;
+    const stageFilter = stageSel.value==='any' ? 0 : (b.stage===stageSel.value ? 1 : -2);
+    return shared*2 + locBoost + stageFilter; // simple transparent scoring
+  }
+
+  function cardHTML(b){
+    const shared = overlap([...selected], b.tags);
+    const why = [
+      shared.length ? `Shared: ${shared.join(', ')}` : 'Shared: —',
+      (locSel.value!=='All Melbourne' ? `Location: ${b.loc===locSel.value?'same suburb':'nearby ' + b.loc}` : `Location: ${b.loc}`),
+      `Stage: ${b.stage}`
+    ].join(' · ');
+    const saved = isSaved(b.name);
+    return `
+      <article class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="row"><div class="avatar">${b.name[0]}</div><div><strong style="display:block">${b.name}</strong><span class="muted">${b.loc}</span></div></div>
+          <span class="pill">${b.stage}</span>
+        </div>
+        <p class="muted" style="margin:8px 0 10px">${why}</p>
+        <div class="row">
+          <a class="cta" href="chat.html?buddy=${encodeURIComponent(b.name)}&loc=${encodeURIComponent(b.loc)}&stage=${encodeURIComponent(b.stage)}">Chat</a>
+          <button class="save" data-name="${b.name}">${saved?'★ Saved':'☆ Save for later'}</button>
+          <button class="save" data-report="${b.name}">Report/Block</button>
+        </div>
+      </article>`;
+  }
+
+  function isSaved(name){
+    try{ const s=JSON.parse(localStorage.getItem('settlein_saved_buddies')||'[]'); return s.includes(name);}catch{ return false }
+  }
+  function toggleSave(name){
+    let s=[]; try{ s=JSON.parse(localStorage.getItem('settlein_saved_buddies')||'[]'); }catch{}
+    if(s.includes(name)) s=s.filter(x=>x!==name); else s.push(name);
+    localStorage.setItem('settlein_saved_buddies', JSON.stringify(s));
+  }
+
+  function render(list){
+    results.innerHTML = list.map(cardHTML).join('');
+    countHint.textContent = `${list.length} match${list.length===1?'':'es'}`;
+  }
+
+  function run(){
+    let list = POOL.slice();
+    if(stageSel.value!=='any') list = list.filter(b=>b.stage===stageSel.value);
+    if(locSel.value!=='All Melbourne') list = list.filter(b=>b.loc===locSel.value);
+    // rank by score
+    list = list.map(b=>({b, s:scoreBuddy(b)})).sort((x,y)=>y.s-x.s).map(x=>x.b);
+    const sort = sortSel.value;
+    if(sort==='near') list.sort((a,b)=> (a.loc===locSel.value?-1:1) - (b.loc===locSel.value?-1:1));
+    if(sort==='name') list.sort((a,b)=> a.name.localeCompare(b.name));
+    render(list);
+  }
+
+  // Events
+  document.getElementById('findBtn').addEventListener('click', run);
+  document.getElementById('clearBtn').addEventListener('click', ()=>{
+    selected.clear(); [...chipsBox.children].forEach(c=>c.classList.remove('selected'));
+    stageSel.value='any'; locSel.value='All Melbourne'; sortSel.value='score'; render([]);
+  });
+  sortSel.addEventListener('change', run);
+  stageSel.addEventListener('change', run);
+  locSel.addEventListener('change', run);
+
+  // Delegate save/report
+  results.addEventListener('click', (e)=>{
+    const t=e.target; if(!(t instanceof HTMLElement)) return;
+    if(t.matches('button.save[data-name]')){ toggleSave(t.dataset.name); run(); }
+    if(t.matches('button.save[data-report]')){ const n=t.dataset.report; alert(`Thanks. We will review ${n}'s profile.`); }
+  });
+
+  // Optional: read interests/location from URL (e.g., ?loc=Carlton&interests=anime,music)
+  (function(){
+    const params=new URLSearchParams(location.search);
+    const loc=params.get('loc');
+    const ints=(params.get('interests')||'').split(',').filter(Boolean);
+    if(loc && SUBURBS.includes(loc)) locSel.value=loc;
+    if(ints.length){
+      ints.forEach(n=>{ if(INTERESTS.includes(n)) selected.add(n); });
+      // reflect in UI
+      [...chipsBox.children].forEach(btn=>{ const txt=btn.textContent.trim().split(/\s+/).slice(1).join(' '); if(selected.has(txt)) btn.classList.add('selected'); });
+    }
+    run();
+  })();
+</script>
+</body>
+</html>

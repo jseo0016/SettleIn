@@ -24,67 +24,46 @@
     body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:var(--bg); color:var(--text); line-height:1.55; transition: background .3s, color .3s}
     a{color:inherit; text-decoration:none}
     .wrap{max-width:1100px; margin:0 auto; padding:28px}
-    header{position:sticky; top:0; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:50}
-    :root[data-theme='light'] header{background:rgba(255,255,255,0.9); border-bottom:1px solid rgba(0,0,0,.06)}
+    header{position:sticky; top:0; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55)); border-bottom:1px solid var(--border); z-index:50}
+    :root[data-theme='light'] header{background:rgba(255,255,255,0.9)}
     .nav{display:flex; align-items:center; justify-content:space-between; gap:18px}
     .brand{display:flex; align-items:center; gap:10px; font-weight:700}
     .logo{width:34px; height:34px; background:conic-gradient(from 220deg,var(--brand),var(--brand-2)); border-radius:10px}
     .cta{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; font-weight:700; padding:10px 14px; border-radius:12px; border:none; cursor:pointer}
-    .cta:focus{outline:2px solid var(--ring); outline-offset:2px}
-    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
-    .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.18)}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer}
 
     .theme-toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card); color:var(--text)}
-    .toggle-dot{width:22px; height:22px; border-radius:50%; background:conic-gradient(from 180deg,var(--brand),var(--brand-2)); display:inline-block; transition: transform .45s cubic-bezier(.2,.8,.2,1)}
-    .spin .toggle-dot{transform: rotate(360deg)}
+    .toggle-dot{width:22px; height:22px; border-radius:50%; background:conic-gradient(from 180deg,var(--brand),var(--brand-2)); display:inline-block}
 
     .hero{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; padding:44px 0}
-    .card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px; transition: background .3s, color .3s}
+    .card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px}
     .pill{display:inline-flex; align-items:center; font-size:12px; font-weight:700; background:linear-gradient(90deg,var(--brand),var(--brand-2)); padding:6px 10px; border-radius:999px; color:#fff}
-    h1{font-size:40px; margin:10px 0 12px}
-    p.lead{color:var(--muted); font-size:16px}
     .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
     .section{padding:24px 0}
-    h2{font-size:26px; margin:0 0 10px}
-    h3{font-size:18px; margin:0 0 6px}
     .muted{color:var(--muted)}
     .row{display:flex; gap:10px; flex-wrap:wrap}
-
-    .chip{background:var(--card); border:1px solid var(--border); padding:14px 18px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:12px; transition:transform .18s ease, box-shadow .18s ease, outline-color .18s ease; color:var(--text); font-size:15px}
-    .chip .ico{font-size:18px; transition: transform .18s ease}
-    .chip:hover{transform:translateY(-2px) scale(1.08); box-shadow:0 10px 24px rgba(0,0,0,.25)}
-    .chip:hover .ico{transform: scale(1.2)}
-    .chip.selected{outline:2px solid var(--ring)}
-
-    .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    .field{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px}
-    label{display:block; font-weight:600; margin-bottom:8px}
-    input[type="range"], select{width:100%}
-    select, input[type="range"], input[type="checkbox"]{background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:8px}
-    .inline{display:flex; align-items:center; gap:8px}
-
-    .hint{font-size:12px; color:var(--muted)}
-    .foot{margin-top:26px; font-size:12px; color:var(--muted)}
-
-    dialog{border:none; border-radius:16px; padding:0; overflow:hidden; max-width:660px; width:96vw; background:var(--card); color:var(--text)}
-    dialog::backdrop{background:rgba(1,6,16,.7)}
-
-    .result-box{padding:26px; border-radius:16px; background:var(--card); margin-top:12px; min-height:260px}
-    .result-line{display:flex; align-items:center; gap:16px; margin-bottom:16px}
-    .members{display:flex; flex-wrap:wrap; gap:16px}
-    .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(90deg,var(--brand),var(--brand-2))}
 
     /* WhatsApp-like chat illustration */
     .wa{border:1px solid var(--wa-border); border-radius:16px; overflow:hidden; font-size:14px; max-height:360px;}
     .wa-h{background:var(--wa-header); color:#fff; padding:10px 12px; display:flex; align-items:center; gap:10px}
     .wa-h .ai-ava{width:28px; height:28px; border-radius:50%; background:#fff; color:#075E54; display:flex; align-items:center; justify-content:center; font-weight:700}
-    .wa-b{padding:14px; background:linear-gradient(180deg, rgba(0,0,0,.02), transparent); display:flex; flex-direction:column; overflow:auto; max-height:300px}
-    .wa-b .row{display:flex; align-items:flex-end; gap:8px; margin:6px 0}
+    .wa-b{padding:14px; display:flex; flex-direction:column; overflow:auto; max-height:300px}
     .pp{width:26px; height:26px; border-radius:50%; flex:0 0 26px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; background:linear-gradient(120deg,var(--brand),var(--brand-2)); color:#fff}
     .wa-b .bubble{max-width:78%; padding:10px 12px; border-radius:14px; border:1px solid var(--wa-border)}
     .wa-b .in{background:var(--wa-in)}
 
-    @media(max-width:900px){.hero{grid-template-columns:1fr;}.grid-2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+    .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+    .thumb{width:100%; height:120px; border-radius:12px; background:linear-gradient(120deg,var(--brand),var(--brand-2)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700}
+
+    /* Chatbot */
+    .fab{position:fixed; right:22px; bottom:22px; width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; box-shadow:0 12px 28px rgba(0,0,0,.38); z-index:60; font-size:24px}
+    .drawer{position:fixed; right:22px; bottom:90px; width:min(360px,92vw); max-height:70vh; background:var(--card); border:1px solid var(--border); border-radius:16px; display:none; flex-direction:column; overflow:hidden; z-index:60}
+    .drawer.open{display:flex}
+    .drawer-h{padding:10px 12px; background:#075E54; color:#fff; display:flex; align-items:center; justify-content:space-between}
+    .drawer-b{padding:12px; display:flex; flex-direction:column; gap:8px; overflow:auto}
+    .drawer-f{padding:10px; border-top:1px solid var(--border); display:flex; gap:8px}
+    .input{flex:1; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:12px; padding:8px 10px}
+    .msg{border:1px solid var(--border); border-radius:12px; padding:8px 10px}
   </style>
 </head>
 <body>
@@ -103,113 +82,95 @@
       <div class="card">
         <span class="pill">For international & local students</span>
         <h1>Find your circle. Feel at home.</h1>
-        <p class="lead">SettleIn places you in small 5–7 person chats matched by interests. An AI host sends daily prompts so conversations start naturally. The Tell‑me‑about‑you! quiz adapts your toolkit with tips, stories, and Hug Mode for instant grounding.</p>
+        <p class="muted">Small 5–7 person chats matched by interests. An AI host sends daily prompts. A quick quiz adapts tips, stories, and more.</p>
         <div class="row" style="margin-top:14px">
-          <button class="btn" onclick="document.getElementById('sample').scrollIntoView({behavior:'smooth'})">Give it a try</button>
+          <a class="btn" href="#sample">Give it a try</a>
           <a class="cta" href="chat.html">Connect</a>
         </div>
       </div>
       <div class="card stack">
         <h3>How group chat works</h3>
         <div id="chatIllustration" class="wa">
-          <div class="wa-h"><div class="ai-ava">S</div><div><strong>SettleIn</strong><br><span class="hint" style="color:#eaf2ff; opacity:.9">online</span></div></div>
+          <div class="wa-h"><div class="ai-ava">S</div><div><strong>SettleIn</strong><br><span class="muted" style="opacity:.9">online</span></div></div>
           <div class="wa-b" id="waBody"></div>
         </div>
         <div class="row"><button class="btn" onclick="newIllustration()">New example</button></div>
       </div>
     </section>
 
-    <!-- Full-width Hug Mode band -->
-    <section id="hug" class="section">
-      <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap">
-        <div>
-          <h3 style="margin:0 0 6px">One‑tap Hug Mode</h3>
-          <p class="muted" style="margin:0">Tap once for a 30‑second grounding: breathe, orient, reset.</p>
+    <!-- COMMUNITY HIGHLIGHTS: now shows a top post preview -->
+    <section id="highlights" class="section">
+      <div class="card">
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <h2 style="margin:0">Community highlights — from SettleIn Community</h2>
+          <a class="cta" href="community.html" title="Go to Community">Join Community</a>
         </div>
-        <button class="cta" onclick="openHug()">Start Hug Mode</button>
-        <dialog id="hugModal">
-          <div class="modal-body" style="padding:18px; min-width:min(640px,90vw)">
-            <h3 style="margin:0 0 8px">Hug Mode · 30 seconds</h3>
-            <p class="muted" style="margin:0 0 12px">A quick reset you can do anywhere.</p>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
-              <div class="card" style="border:1px solid var(--border); background:var(--card)">
-                <ol style="margin:0; padding-left:18px">
-                  <li style="margin:6px 0"><strong>See 5:</strong> Name five things around you.</li>
-                  <li style="margin:6px 0"><strong>4‑4‑6 Breathing:</strong> In 4 · Hold 4 · Out 6 × 3.</li>
-                  <li style="margin:6px 0"><strong>Affirm:</strong> “Change is hard. I’m doing my best.”</li>
-                </ol>
+        <div class="row" id="highlightsRow">
+          <article class="card" style="max-width:680px; width:100%">
+            <div class="row" style="align-items:center; gap:12px; margin-bottom:8px">
+              <div class="avatar"></div>
+              <div><strong>Emi</strong><div class="muted" style="font-size:12px">St Kilda · 20h</div></div>
+              <span class="pill" style="margin-left:auto">#wins</span>
+            </div>
+            <div style="border-radius:12px; overflow:hidden; border:1px solid var(--border)">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop" alt="Sunset at the beach" style="display:block; width:100%; height:auto"/>
+            </div>
+            <div style="margin-top:8px">
+              <div class="row" style="justify-content:space-between">
+                <div class="row"><span>❤️ 31</span><span>·</span><span>💬 1</span></div>
+                <a class="cta" href="community.html" style="padding:6px 10px">Open Community</a>
               </div>
-              <div class="card" style="border:1px solid var(--border); background:var(--card)">
-                <label style="font-weight:700">Calming soundtrack</label>
-                <div class="inline" style="flex-wrap:wrap">
-                  <label class="chip"><input type="radio" name="sound" value="ocean" checked> Ocean</label>
-                  <label class="chip"><input type="radio" name="sound" value="rain"> Rain</label>
-                  <label class="chip"><input type="radio" name="sound" value="cafe"> Cafe</label>
-                  <label class="chip"><input type="radio" name="sound" value="tone"> Soft tone</label>
-                </div>
-                <div class="row" style="margin-top:10px">
-                  <button class="btn" id="playSound">Play</button>
-                  <button class="btn" id="stopSound">Stop</button>
+              <p class="caption" style="margin:6px 0 4px"><strong>Emi</strong> Sunset reset at the beach 🌅</p>
+              <div class="muted" style="font-size:12px; margin-bottom:8px">#nature #wins</div>
+              <div style="border-top:1px solid var(--border); padding-top:8px">
+                <div class="row" style="align-items:flex-start">
+                  <div class="avatar" style="width:28px; height:28px"></div>
+                  <div><strong>Jay</strong> Gorgeous!</div>
                 </div>
               </div>
             </div>
-          </div>
-        </dialog>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="sample" class="section">
+    <!-- EXPLORE: show one café and one park recommendation -->
+    <section id="explore" class="section">
       <div class="card">
-        <h2>Give it a try</h2>
-        <p class="muted">Pick a few interests and complete the <strong>Tell me about you!</strong> quiz. We’ll allocate a sample group and show a login button to join.</p>
-        <div class="grid-2">
-          <div class="stack">
-            <h3>1) Choose interests</h3>
-            <div id="interestChips" class="row"></div>
-            <span class="hint">Choose at least 3.</span>
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <h2 style="margin:0">Explore around you</h2>
+          <a class="cta" href="explore.html" title="Open Explore page">Open Explore</a>
+        </div>
+        <p class="muted">Study‑friendly spots near you.</p>
+        <div class="row" id="exploreRow">
+          <a class="card" href="explore.html?loc=Carlton&type=cafe" style="max-width:340px">
+            <div class="thumb">Seven Seeds</div>
+            <strong style="display:block; margin-top:8px">Study‑friendly café</strong>
+            <span class="muted">Carlton · quiet · Wi‑Fi</span>
+          </a>
+          <a class="card" href="explore.html?loc=Box%20Hill&type=park" style="max-width:340px">
+            <div class="thumb">Box Hill Gardens</div>
+            <strong style="display:block; margin-top:8px">Park to unwind</strong>
+            <span class="muted">Box Hill · green · walking loop</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
-            <h3 style="margin-top:14px">2) Tell me about you!</h3>
-            <div class="form-grid">
-              <div class="field">
-                <label for="quizMood">Current vibe</label>
-                <div class="inline"><input type="range" id="quizMood" min="0" max="3" step="1" value="1"><span class="hint">0 Honeymoon → 3 Integration</span></div>
-              </div>
-              <div class="field">
-                <label for="quizLang">Language confidence</label>
-                <div class="inline"><input type="range" id="quizLang" min="0" max="3" step="1" value="2"><span class="hint">0 Struggling → 3 Very confident</span></div>
-              </div>
-              <div class="field">
-                <label for="quizSocial">Social energy</label>
-                <div class="inline"><input type="range" id="quizSocial" min="0" max="3" step="1" value="1"><span class="hint">0 Small groups → 3 Big crowds</span></div>
-              </div>
-              <div class="field">
-                <label for="quizLoc">Location</label>
-                <select id="quizLoc"></select>
-              </div>
-              <div class="field">
-                <label class="inline"><input type="checkbox" id="quizSleep"> Sleep/routine is off</label>
-                <span class="hint">Routines help mood</span>
-              </div>
-              <div class="field">
-                <label class="inline"><input type="checkbox" id="quizHomesick"> Missing home often</label>
-                <span class="hint">Totally normal during transition</span>
-              </div>
-              <div class="field">
-                <label class="inline"><input type="checkbox" id="quizBudget"> Budget stress right now</label>
-                <span class="hint">We’ll share low‑cost ideas</span>
-              </div>
-            </div>
-            <div class="row" style="margin-top:8px">
-              <button class="btn" onclick="runSample()">Generate</button>
-              <button class="btn" onclick="clearSample()">Reset</button>
-            </div>
-          </div>
-
-          <div class="stack">
-            <h3>Results</h3>
-            <div class="result-box" id="matchResult">
-              <p class="muted">Your group, stage & advice will appear here after you generate.</p>
-            </div>
+    <!-- BUDDY: show how it works -->
+    <section id="buddy" class="section">
+      <div class="card">
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <h2 style="margin:0">Find your buddy</h2>
+          <a class="cta" href="buddy.html" title="Open the Buddy page">Open Buddy</a>
+        </div>
+        <p class="muted mini">1‑on‑1 matches by interests, location and stage.</p>
+        <div class="row" id="buddyRow" style="flex-direction:column; align-items:flex-start; gap:12px">
+          <div class="row" style="gap:12px">
+            <span class="chip">1 · Pick interests & location</span>
+            <span class="chip">2 · We score overlaps</span>
+            <span class="chip">3 · Show 1‑on‑1 matches</span>
+            <span class="chip">4 · Chat or save</span>
           </div>
         </div>
       </div>
@@ -222,96 +183,63 @@
       </div>
     </section>
 
-    <p class="foot">© 2025 SettleIn · Demo purposes only</p>
+    <p class="muted" style="font-size:12px">© 2025 SettleIn · Demo purposes only</p>
   </main>
+
+  <!-- Chatbot (visible) -->
+  <button class="fab" id="askFab" title="Ask SettleIn">💬</button>
+  <div class="drawer" id="askDrawer">
+    <div class="drawer-h"><strong>SettleIn Assistant</strong><button class="btn" id="closeDrawer">×</button></div>
+    <div class="drawer-b" id="drawerBody">
+      <div class="msg">Hi! Ask me about settling into Australia. (Demo UI)</div>
+    </div>
+    <div class="drawer-f">
+      <input class="input" id="askInput" placeholder="Ask about housing, transport, study..." />
+      <button class="btn" id="askSend">Send</button>
+    </div>
+  </div>
 
   <script>
     // Theme toggle
     (function(){
-      const root=document.documentElement;
-      const btn=document.getElementById('themeToggle');
-      const saved=localStorage.getItem('settlein_theme');
-      if(saved && saved!=='dark') root.setAttribute('data-theme', saved);
-      btn.addEventListener('click',()=>{
-        btn.classList.add('spin');
-        const next=root.getAttribute('data-theme')==='light'?'dark':'light';
-        if(next==='dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light');
-        localStorage.setItem('settlein_theme', root.getAttribute('data-theme')||'dark');
-        setTimeout(()=>btn.classList.remove('spin'), 500);
-      });
+      const root=document.documentElement; const btn=document.getElementById('themeToggle');
+      const saved=localStorage.getItem('settlein_theme'); if(saved && saved!=='dark') root.setAttribute('data-theme', saved);
+      btn.addEventListener('click',()=>{ const next=root.getAttribute('data-theme')==='light'?'dark':'light'; if(next==='dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light'); localStorage.setItem('settlein_theme', root.getAttribute('data-theme')||'dark'); });
     })();
 
-    // Locations
-    (function(){
-      const suburbs=['All Melbourne','Melbourne CBD','Docklands','Southbank','Carlton','Parkville','Fitzroy','Collingwood','Richmond','Abbotsford','Hawthorn','Kew','Camberwell','Balwyn','Toorak','South Yarra','Prahran','St Kilda','Elwood','Brighton','Elsternwick','Caulfield','Malvern','Armadale','Glen Iris','Burwood','Ashburton','Glen Waverley','Mount Waverley','Box Hill','Doncaster','Doncaster East','Templestowe','Clayton','Clayton South','Springvale','Noble Park','Dandenong','Oakleigh','Hughesdale','Murrumbeena','Carnegie','Chadstone','Bentleigh','Bentleigh East','Moorabbin','Hampton','Sandringham','Cheltenham','Mentone','Parkdale','Mordialloc','Brunswick','Coburg','Pascoe Vale','Preston','Thornbury','Northcote','Heidelberg','Ivanhoe','Bundoora','Essendon','Moonee Ponds','Ascot Vale','Kensington','Flemington','Footscray','Yarraville','Seddon','Newport','Williamstown','Altona','Sunshine','St Albans','Werribee','Hoppers Crossing','Tarneit','Point Cook'];
-      const sel=document.getElementById('quizLoc');
-      suburbs.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s; sel.appendChild(o)});
-      sel.value='All Melbourne';
-    })();
-
-    // Chat illustration with avatars
+    // Chat illustration sample
     const RESPONSES={
       basketball:[
-        {u:'SettleIn',t:"Today’s prompt: Who’s the most underrated NBA player right now?",k:'host'},
+        {u:'SettleIn',t:"Today’s prompt: Who’s the most underrated NBA player right now?"},
         {u:'Gio',t:'Jrue Holiday—elite defense that doesn’t always show on the stat sheet.'},
         {u:'Leo',t:'Mike Conley. Leadership is underrated.'},
         {u:'Ben',t:'Derrick White does it all.'}
       ],
       anime:[
-        {u:'SettleIn',t:'Today’s prompt: Which anime comforts you when stressed?',k:'host'},
+        {u:'SettleIn',t:'Today’s prompt: Which anime comforts you when stressed?'},
         {u:'Ari',t:'Mushishi, the pacing is so calm.'},
         {u:'Emi',t:'Haikyuu!! always boosts me.'},
         {u:'Iris',t:"Natsume’s Book of Friends is my cozy pick."}
-      ],
-      music:[
-        {u:'SettleIn',t:'Today’s prompt: What song instantly lifts your mood?',k:'host'},
-        {u:'Jay',t:'“Ribs” by Lorde.'},
-        {u:'Kai',t:'“Home” by Edward Sharpe.'},
-        {u:'Chloe',t:'“Yellow” for nostalgia.'}
       ]
     };
-    const AVATARS={ 'SettleIn':'S','Gio':'🧢','Leo':'🦁','Ben':'🏀','Ari':'🌿','Emi':'💫','Iris':'📚','Jay':'🎵','Kai':'🌊','Chloe':'📷' };
+    const AVATARS={ 'SettleIn':'S','Gio':'🧢','Leo':'🦁','Ben':'🏀','Ari':'🌿','Emi':'💫','Iris':'📚'};
     function bubbleHTML(m){ const ava=AVATARS[m.u]||m.u[0]; return `<div class='row'><div class='pp'>${ava}</div><div class='bubble in'><strong>${m.u}:</strong> ${m.t}</div></div>` }
-    function newIllustration(){ const key=Object.keys(RESPONSES)[Math.floor(Math.random()*3)]; document.getElementById('waBody').innerHTML=RESPONSES[key].map(bubbleHTML).join('') }
+    function newIllustration(){ const key=Object.keys(RESPONSES)[Math.floor(Math.random()*2)]; document.getElementById('waBody').innerHTML=RESPONSES[key].map(bubbleHTML).join('') }
     newIllustration();
 
-    function openHug(){ document.getElementById('hugModal').showModal() }
-
-    // Interests with icons
-    const INTEREST_ICONS={ basketball:'🏀', anime:'🌀', hiking:'🥾', music:'🎧', gaming:'🎮', coffee:'☕', cooking:'🍳', movies:'🎬', photography:'📸', gym:'🏋️', boardgames:'🎲', kdrama:'🇰🇷', coding:'💻', volunteering:'🤝', running:'🏃', travel:'🌏' };
-    const INTERESTS=['basketball','anime','hiking','music','gaming','coffee','cooking','movies','photography','gym','boardgames','kdrama','coding','volunteering','running','travel'];
-    const interestChips=document.getElementById('interestChips');
-    const selected=new Set();
-    INTERESTS.forEach(name=>{ const b=document.createElement('button'); b.className='chip'; b.innerHTML=`<span class='ico'>${INTEREST_ICONS[name]||'✨'}</span><span>${name}</span>`; b.onclick=()=>{ if(selected.has(name)){selected.delete(name); b.classList.remove('selected')} else {selected.add(name); b.classList.add('selected')} }; interestChips.appendChild(b); });
-
-    // Allocation
-    const POOL=[
-      {name:'Ari', loc:'Carlton', tags:['anime','music','coffee','kdrama']},
-      {name:'Ben', loc:'Richmond', tags:['basketball','gym','movies','coffee']},
-      {name:'Chloe', loc:'Glen Waverley', tags:['hiking','photography','travel','coffee']},
-      {name:'Dev', loc:'Footscray', tags:['gaming','coding','music','boardgames']},
-      {name:'Emi', loc:'St Kilda', tags:['kdrama','cooking','anime','movies']},
-      {name:'Finn', loc:'Preston', tags:['running','hiking','gym','travel']},
-      {name:'Gio', loc:'Docklands', tags:['basketball','gaming','movies','music']},
-      {name:'Hana', loc:'Clayton', tags:['cooking','coffee','photography','volunteering']},
-      {name:'Iris', loc:'Brunswick', tags:['boardgames','anime','movies','music']},
-      {name:'Jay', loc:'Southbank', tags:['coding','gaming','coffee','movies']},
-      {name:'Kai', loc:'Northcote', tags:['travel','photography','music','running']},
-      {name:'Leo', loc:'Caulfield', tags:['basketball','gym','gaming','movies']}
-    ];
-    function allocateGroup(myTags, loc){ let picks=[...POOL].filter(p=>p.tags.some(t=>myTags.includes(t))); if(loc && loc!=='All Melbourne') picks=picks.filter(p=>p.loc===loc)||picks; while(picks.length<4){ const r=POOL[Math.floor(Math.random()*POOL.length)]; if(!picks.includes(r)) picks.push(r);} const size=5+Math.floor(Math.random()*3); return picks.slice(0,size-1); }
-
-    const STAGE_TIPS={ honeymoon:['Capture “firsts” in a micro‑journal.','Sample low‑stakes events to test communities.'], frustration:['Anchor sleep & meals; routines help mood.','Normalize wobbliness—this dip is very common.'], adjustment:['Set one weekly mini‑goal with your circle.','Use a 2 comfy : 1 new activity ratio.'], integration:['Share a short story to help others.','Create a group tradition (Fri coffee, Sun run).'] };
-    function stageFromQuiz(){ const mood=+document.getElementById('quizMood').value; const lang=+document.getElementById('quizLang').value; const social=+document.getElementById('quizSocial').value; const sleep=document.getElementById('quizSleep').checked; const homesick=document.getElementById('quizHomesick').checked; let idx=mood; if(homesick && idx<2) idx=1; if(!sleep && lang>=2 && idx<3) idx=Math.max(idx,2); if(social>=3 && idx<3) idx=Math.max(idx,2); return ['honeymoon','frustration','adjustment','integration'][idx]; }
-
-    function renderMembers(mates){ return mates.map(m=>`<span class="chip" style="padding:14px 18px"><span class="avatar"></span><span>${m.name}</span><span class="hint" style="margin-left:8px">· ${m.loc}</span></span>`).join(' ');}    
-
-    function runSample(){ const picks=[...selected]; if(picks.length<3){ alert('Choose at least 3 interests.'); return;} const stage=stageFromQuiz(); const loc=document.getElementById('quizLoc').value; const mates=allocateGroup(picks, loc); const groupId='alpha-'+(100+Math.floor(Math.random()*900)); const tip=(STAGE_TIPS[stage]||[''])[Math.floor(Math.random()*2)]||''; const target=document.getElementById('matchResult'); target.innerHTML=`<div class='stack' style='gap:16px'><div class='result-line'><span class='pill'>Group · ${groupId}</span><span class='hint'>${mates.length+1} members</span></div><div class='hint'>Location preference: <strong style='color:var(--text)'>${loc}</strong></div><div class='members'>${renderMembers(mates)} <span class='chip selected' style='padding:14px 18px'><span class='avatar'></span>You</span></div><div class='card' style='background:var(--card)'><strong>Your stage:</strong> ${stage.toUpperCase()}<br><span class='muted'>Tip:</span> ${tip}</div><div class='row'><a class='cta' id='loginJoin' href='login.html?next=${encodeURIComponent('chat.html?groupId='+groupId+'&stage='+stage+'&loc='+encodeURIComponent(loc))}'>Log in to join group</a></div><span class='hint'>We’ll pass your <span class='mono'>groupId</span>, stage & location to the chat after login.</span></div>`; document.getElementById('connectBtn').href=`chat.html?groupId=${groupId}&stage=${stage}&loc=${encodeURIComponent(loc)}`; }
-
-    function clearSample(){ selected.clear(); [...interestChips.children].forEach(c=>c.classList.remove('selected')); document.getElementById('matchResult').innerHTML='<p class="muted">Your group, stage & advice will appear here after you generate.</p>'; document.getElementById('connectBtn').href='chat.html'; }
-
-    // Hug Mode audio (WebAudio)
-    (function(){ let ac, oscL, oscH, gain; function setup(){ ac=ac||new (window.AudioContext||window.webkitAudioContext)(); } function stop(){ if(!ac||!gain) return; gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+0.2); setTimeout(()=>{ try{oscL&&oscL.stop();oscH&&oscH.stop();}catch{} gain.disconnect(); oscL=oscH=gain=null; },300);} function play(mode){ setup(); stop(); gain=ac.createGain(); gain.gain.value=0.0001; gain.connect(ac.destination); gain.gain.exponentialRampToValueAtTime(0.2, ac.currentTime+0.3); if(mode==='tone'){ oscL=ac.createOscillator(); oscL.type='sine'; oscL.frequency.value=432; oscL.connect(gain); oscL.start(); return;} oscL=ac.createOscillator(); oscH=ac.createOscillator(); oscL.type='sine'; oscH.type='sine'; if(mode==='ocean'){ oscL.frequency.value=110; oscH.frequency.value=0.3;} if(mode==='rain'){ oscL.frequency.value=220; oscH.frequency.value=0.7;} if(mode==='cafe'){ oscL.frequency.value=160; oscH.frequency.value=2.0;} const lGain=ac.createGain(); const hGain=ac.createGain(); lGain.gain.value=0.15; hGain.gain.value=0.05; const mod=ac.createGain(); mod.gain.value=50; oscH.connect(mod); mod.connect(oscL.frequency); oscL.connect(lGain); lGain.connect(gain); oscH.connect(hGain); hGain.connect(gain); oscL.start(); oscH.start(); } document.addEventListener('click',(e)=>{ if(e.target.id==='playSound'){ const sel=[...document.querySelectorAll('input[name="sound"]')].find(r=>r.checked)?.value||'ocean'; play(sel);} if(e.target.id==='stopSound') stop(); }); })();
+    // Chatbot drawer (UI only)
+    (function(){
+      const fab=document.getElementById('askFab');
+      const drawer=document.getElementById('askDrawer');
+      const close=document.getElementById('closeDrawer');
+      const send=document.getElementById('askSend');
+      const input=document.getElementById('askInput');
+      const body=document.getElementById('drawerBody');
+      function append(role, text){ const d=document.createElement('div'); d.className='msg'; d.textContent=(role==='me'?'You: ':'SettleIn: ')+text; body.appendChild(d); body.scrollTop=body.scrollHeight; }
+      fab.addEventListener('click',()=>drawer.classList.toggle('open'));
+      close.addEventListener('click',()=>drawer.classList.remove('open'));
+      send.addEventListener('click',()=>{ if(!input.value.trim()) return; append('me', input.value.trim()); append('ai','Thanks! This is a UI demo.'); input.value=''; });
+    })();
   </script>
 </body>
 </html>

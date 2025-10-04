@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SettleIn — Explore Around You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --muted:#8ea2c8; --text:#eaf2ff;
+      --brand:#6dd3a3; --brand-2:#8ab6ff; --ring: rgba(141,214,186,0.45);
+      --ok:#86efac; --warn:#fbbf24; --danger:#f87171; --border: rgba(255,255,255,.10);
+    }
+    :root[data-theme='light']{
+      --bg:#f6f9ff; --card:#ffffff; --muted:#506289; --text:#0b1220;
+      --brand:#2dd4bf; --brand-2:#60a5fa; --ring: rgba(96,165,250,0.45);
+      --ok:#16a34a; --warn:#d97706; --danger:#dc2626; --border: rgba(0,0,0,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:var(--bg); color:var(--text); line-height:1.55; transition: background .3s, color .3s}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1200px; margin:0 auto; padding:24px}
+
+    header{position:sticky; top:0; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:50}
+    :root[data-theme='light'] header{background:rgba(255,255,255,0.9); border-bottom:1px solid rgba(0,0,0,.06)}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px 24px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700}
+    .logo{width:34px; height:34px; background:conic-gradient(from 220deg,var(--brand),var(--brand-2)); border-radius:10px}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.18)}
+    .cta{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; font-weight:700; padding:10px 14px; border-radius:12px; border:none; cursor:pointer}
+
+    .theme-toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card); color:var(--text)}
+
+    h1{font-size:32px; margin:16px 0 10px}
+    p.lead{color:var(--muted); margin:0 0 14px}
+
+    /* Map top */
+    .map-wrap{border-radius:16px; overflow:hidden; border:1px solid var(--border); background:var(--card)}
+    iframe{width:100%; height:340px; border:0}
+
+    /* Filters */
+    .filters{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:16px 0}
+    .field{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px}
+    label{display:block; font-weight:700; margin-bottom:6px}
+    select, input[type="text"]{width:100%; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:8px}
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{background:var(--card); border:1px solid var(--border); padding:8px 10px; border-radius:999px; cursor:pointer}
+    .chip.selected{outline:2px solid var(--ring)}
+
+    /* Masonry (Pinterest-like) */
+    .masonry{column-count:3; column-gap:14px; margin-top:12px}
+    .card{background:var(--card); border:1px solid var(--border); border-radius:16px; margin:0 0 14px; padding:14px; break-inside:avoid; display:block}
+    .thumb{width:100%; height:160px; border-radius:12px; background:linear-gradient(120deg,var(--brand),var(--brand-2)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700}
+    .row{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .tag{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border)}
+
+    @media(max-width:1000px){ .masonry{column-count:2} }
+    @media(max-width:640px){ .masonry{column-count:1} .filters{grid-template-columns:1fr} iframe{height:280px} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand"><div class="logo"></div> SettleIn</div>
+      <div class="row">
+        <a class="btn" href="index.html">← Home</a>
+        <button id="themeToggle" class="theme-toggle">Theme</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Explore around you</h1>
+    <p class="lead">Discover study‑friendly cafés, libraries and community spots. Click a card to centre the map, or open Google Maps for directions.</p>
+
+    <section class="map-wrap">
+      <iframe id="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src="https://www.google.com/maps?q=Melbourne%20CBD&output=embed"></iframe>
+    </section>
+
+    <section class="filters">
+      <div class="field">
+        <label for="loc">Location</label>
+        <select id="loc"></select>
+      </div>
+      <div class="field">
+        <label for="type">Type</label>
+        <select id="type">
+          <option value="any">Any</option>
+          <option value="cafe">Café</option>
+          <option value="library">Library</option>
+          <option value="park">Park</option>
+          <option value="community">Community</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="q">Search</label>
+        <input id="q" type="text" placeholder="e.g., quiet, late, budget" />
+      </div>
+    </section>
+
+    <section id="list" class="masonry" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // Theme
+    (function(){
+      const root=document.documentElement; const btn=document.getElementById('themeToggle');
+      const saved=localStorage.getItem('settlein_theme'); if(saved && saved!=='dark') root.setAttribute('data-theme', saved);
+      btn.addEventListener('click',()=>{ const next=root.getAttribute('data-theme')==='light'?'dark':'light'; if(next==='dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light'); localStorage.setItem('settlein_theme', root.getAttribute('data-theme')||'dark'); });
+    })();
+
+    // Data
+    const SUBURBS=['All Melbourne','Melbourne CBD','Docklands','Southbank','Carlton','Parkville','Fitzroy','Collingwood','Richmond','Abbotsford','Hawthorn','Kew','Camberwell','Balwyn','Toorak','South Yarra','Prahran','St Kilda','Elwood','Brighton','Elsternwick','Caulfield','Malvern','Armadale','Glen Iris','Burwood','Ashburton','Glen Waverley','Mount Waverley','Box Hill','Doncaster','Doncaster East','Templestowe','Clayton','Clayton South','Springvale','Noble Park','Dandenong','Oakleigh','Hughesdale','Murrumbeena','Carnegie','Chadstone','Bentleigh','Bentleigh East','Moorabbin','Hampton','Sandringham','Cheltenham','Mentone','Parkdale','Mordialloc','Brunswick','Coburg','Pascoe Vale','Preston','Thornbury','Northcote','Heidelberg','Ivanhoe','Bundoora','Essendon','Moonee Ponds','Ascot Vale','Kensington','Flemington','Footscray','Yarraville','Seddon','Newport','Williamstown','Altona','Sunshine','St Albans','Werribee','Hoppers Crossing','Tarneit','Point Cook'];
+
+    const PLACES=[
+      {name:'Seven Seeds', type:'cafe', suburb:'Carlton', tags:['quiet','wifi','student'], note:'Specialty coffee, big tables', link:'https://www.google.com/maps?q=Seven+Seeds+Carlton'},
+      {name:'State Library Victoria', type:'library', suburb:'Melbourne CBD', tags:['quiet','study','late'], note:'Iconic reading rooms', link:'https://www.google.com/maps?q=State+Library+Victoria'},
+      {name:'Monash Library (Hargrave-Andrew)', type:'library', suburb:'Clayton', tags:['study','group rooms'], note:'Great for science/eng', link:'https://www.google.com/maps?q=Hargrave+Andrew+Library+Clayton'},
+      {name:'Mr Tulk', type:'cafe', suburb:'Melbourne CBD', tags:['cheap eats','wifi'], note:'Inside State Library', link:'https://www.google.com/maps?q=Mr+Tulk+Cafe'},
+      {name:'Princes Park', type:'park', suburb:'Carlton', tags:['run','green'], note:'Great running loop', link:'https://www.google.com/maps?q=Princes+Park+Carlton'},
+      {name:'Box Hill Gardens', type:'park', suburb:'Box Hill', tags:['green','quiet'], note:'Lake + gazebo', link:'https://www.google.com/maps?q=Box+Hill+Gardens'},
+      {name:'Glen Waverley Library', type:'library', suburb:'Glen Waverley', tags:['study','quiet'], note:'Light-filled spaces', link:'https://www.google.com/maps?q=Glen+Waverley+Library'},
+      {name:'St Kilda Library', type:'library', suburb:'St Kilda', tags:['study','community'], note:'Events + study desks', link:'https://www.google.com/maps?q=St+Kilda+Library'},
+      {name:'Docklands Park', type:'park', suburb:'Docklands', tags:['walk','views'], note:'Harbour walk', link:'https://www.google.com/maps?q=Docklands+Park'},
+      {name:'Footscray Community Arts', type:'community', suburb:'Footscray', tags:['events','creative'], note:'Workshops + gallery', link:'https://www.google.com/maps?q=Footscray+Community+Arts'},
+      {name:'Monash Clayton Campus Green', type:'park', suburb:'Clayton', tags:['meetup','green'], note:'Open lawns for groups', link:'https://www.google.com/maps?q=Monash+Campus+Green+Clayton'},
+      {name:'Readings Carlton', type:'community', suburb:'Carlton', tags:['events','bookshop'], note:'Talks & launches', link:'https://www.google.com/maps?q=Readings+Carlton'}
+    ];
+
+    // Build selects
+    const locSel=document.getElementById('loc');
+    SUBURBS.forEach(s=>{const o=document.createElement('option'); o.value=s; o.textContent=s; locSel.appendChild(o)});
+
+    // Read URL param
+    (function(){ const p=new URLSearchParams(location.search); const loc=p.get('loc'); if(loc && SUBURBS.includes(loc)) locSel.value=loc; else locSel.value='All Melbourne'; })();
+
+    const typeSel=document.getElementById('type');
+    const q=document.getElementById('q');
+    const list=document.getElementById('list');
+    const map=document.getElementById('map');
+
+    function mapTo(target){ map.src = `https://www.google.com/maps?q=${encodeURIComponent(target)}&output=embed`; }
+
+    function cardHTML(p){
+      const gq = encodeURIComponent(`${p.name} ${p.suburb}`);
+      return `
+        <a class="card" href="https://www.google.com/maps?q=${gq}" target="_blank" rel="noopener" data-center="${p.name} ${p.suburb}">
+          <div class="thumb">${p.name.split(' ').slice(0,2).join(' ')}</div>
+          <div class="row" style="justify-content:space-between; margin-top:8px">
+            <div><strong style="display:block">${p.name}</strong><span class="muted">${p.suburb} · ${p.type}</span></div>
+          </div>
+          <p class="muted" style="margin:8px 0 10px">${p.note}</p>
+          <div class="row">${p.tags.map(t=>`<span class='tag'>${t}</span>`).join(' ')}</div>
+          <div class="row" style="margin-top:10px">
+            <span class="btn" aria-hidden="true">Open in Google Maps</span>
+          </div>
+        </a>`;
+    }
+
+    function render(){
+      const loc = locSel.value;
+      const type = typeSel.value;
+      const kw = q.value.trim().toLowerCase();
+      let items = PLACES.slice();
+      if(loc!=="All Melbourne") items = items.filter(p=>p.suburb===loc);
+      if(type!=="any") items = items.filter(p=>p.type===type);
+      if(kw) items = items.filter(p=>[p.name,p.suburb,p.type,p.note,(p.tags||[]).join(' ')].join(' ').toLowerCase().includes(kw));
+      list.innerHTML = items.map(cardHTML).join('');
+      // attach click to center map
+      [...list.querySelectorAll('.card')].forEach(a=>{
+        a.addEventListener('mouseenter',()=>{ const c=a.dataset.center; if(c) mapTo(c); });
+      });
+      // set map to current suburb if available
+      mapTo(loc!=="All Melbourne" ? loc : 'Melbourne');
+    }
+
+    locSel.addEventListener('change', render);
+    typeSel.addEventListener('change', render);
+    q.addEventListener('input', ()=>{ clearTimeout(q._t); q._t=setTimeout(render, 200); });
+
+    render();
+  </script>
+</body>
+</html>
